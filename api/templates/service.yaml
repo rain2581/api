@@ -8,7 +8,7 @@ metadata:
 spec:
 #  clusterIP: None
   ports:
-  - name: "localRest"
+  - name: "localrest"
     port: 3000
     targetPort: 3000
   - name: "helpers"
