@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ template "api.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  name: {{ template "api.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ template "api.fullname" . }}
+    spec:
+      containers:
+      - image:  {{ .Values.ContainerImage }} 
+        name: {{ template "api.fullname" . }}
+        resources: {}
+        env:
+        - name: BUILD_NUMBER
+          value: "{{ .Values.BuildNumber }}"
+        volumeMounts:
+        - mountPath: /usr/src/app/functions/cfg.js
+          subPath: cfg.js
+          name: {{ template "api.fullname" . }}-nodejs
+        - mountPath: /usr/src/app/other/servolab-sandbox-firebase-adminsdk.json
+          subPath: servolab-sandbox-firebase-adminsdk.json
+          name: {{ template "api.fullname" . }}-nodejs-firebase
+      restartPolicy: Always
+      volumes:
+      - name: sandbox-api-nodejs
+        configMap:
+          name: cfg-js-{{ template "api.fullname" . }}
+      - name: sandbox-api-nodejs-firebase
+        configMap:
+          name: firebase-json-{{ template "api.fullname" . }}
+      imagePullSecrets:
+      - name: regcred
+status: {}
+
