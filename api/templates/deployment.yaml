@@ -30,10 +30,10 @@ spec:
           name: {{ template "api.fullname" . }}-nodejs-firebase
       restartPolicy: Always
       volumes:
-      - name: sandbox-api-nodejs
+      - name: {{ template "api.fullname" . }}-nodejs
         configMap:
           name: cfg-js-{{ template "api.fullname" . }}
-      - name: sandbox-api-nodejs-firebase
+      - name: {{ template "api.fullname" . }}-nodejs-firebase
         configMap:
           name: firebase-json-{{ template "api.fullname" . }}
       imagePullSecrets:
