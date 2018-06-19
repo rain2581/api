@@ -19,7 +19,7 @@ data:
     result.extend(['%s\n' % item for item in ('''
 kind: ConfigMap
 metadata:
-   name: %s-{{ template "sandbox-api.fullname" . }}
+   name: %s-{{ template "api.fullname" . }}
 ''' % ('cfg-js' if sys.argv[1] == 'js' else 'firebase-json')).splitlines()])
 
     with open(sys.argv[3], 'w') as out:
